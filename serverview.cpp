@@ -33,9 +33,9 @@ QString ServerView::getCurrentDateTime() const
                    + QTime::currentTime().toString()};
 }
 
-bool ServerView::sendMsgToClient(const QString& message) const
+bool ServerView::sendMsgToClient(const QString& client, const QString& message) const
 {
-    return server_view_model->sendMsgToClient(message);
+    return server_view_model->sendMsgToClient(client, message);
 }
 
 void ServerView::startServer(const QString &port)

@@ -9,6 +9,7 @@ ApplicationWindow {
 
     property bool serverIsStarted: server_view.stateServerStarted
     property bool error_flag: false
+    property string selectedClient: ""
 
     visible: true
     minimumHeight: 400

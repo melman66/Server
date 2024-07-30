@@ -31,13 +31,14 @@ function removeMsgClient(name)
 
 function sendMsgToClient(message)
 {
-    if (serverIsStarted) {
-        if (server_view.sendMsgToClient(message)) {
-            server_input_message.input_message_text.text = ""
-            server_view.messageSended(
-                        server_view.getCurrentDateTime()+"\n"
-                        +"me:\n"+message)
-        }
+    if (server_view.sendMsgToClient(selectedClient, message)) {
+        server_input_message.input_message_text.text = ""
+        server_view.messageSended(
+                    server_view.getCurrentDateTime()+"\n"
+                    +"Me:\n"+message)
+    }
+    else {
+        server_view.messageSended("Error!!! Message is not sended! Please, check the selected reciver.")
     }
 }
 

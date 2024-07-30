@@ -19,10 +19,7 @@ ScrollView{
         width: parent.width
         height: parent.height
         verticalAlignment: Text.AlignVCenter
-        textMargin: 10
         clip: true
         wrapMode: Text.WordWrap
-        placeholderText: "Enter text..."
-
     }
 }

@@ -6,7 +6,7 @@ Rectangle {
 
     property bool lightIsConnected: false
 
-    width: 150
+    width: 160
     height: 30
     color: "#ff8177"
     radius: 100

@@ -1,6 +1,7 @@
 ﻿import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import Server
 import "ServerFuncs.js" as Funcs
 
 Rectangle {
@@ -11,6 +12,64 @@ Rectangle {
 
     ListModel{
         id: clients_list_model
+
+//        ListElement{
+//            client: "aaa"
+//        }
+//        ListElement{
+//            client: "bbb"
+//        }
+//        ListElement{
+//            client: "CCCCCCCCC"
+//        }
+//        ListElement{
+//            client: "ddddd"
+//        }
+//        ListElement{
+//            client: "eee"
+//        }
+
+//        ListElement{
+//            client: "CCCCCCCCC"
+//        }
+//        ListElement{
+//            client: "ddddd"
+//        }
+//        ListElement{
+//            client: "eee"
+//        }
+
+//        ListElement{
+//            client: "CCCCCCCCC"
+//        }
+//        ListElement{
+//            client: "ddddd"
+//        }
+//        ListElement{
+//            client: "eee"
+//        }
+
+//        ListElement{
+//            client: "CCCCCCCCC"
+//        }
+//        ListElement{
+//            client: "ddddd"
+//        }
+//        ListElement{
+//            client: "eee"
+//        }
+
+//        ListElement{
+//            client: "CCCCCCCCC"
+//        }
+//        ListElement{
+//            client: "ddddd"
+//        }
+//        ListElement{
+//            client: "eee"
+//        }
+
+
     }
 
     Component {
@@ -18,13 +77,18 @@ Rectangle {
 
         Item {
             id: delegate_item
-            width: delegate_text_messages.width + 5
-            height: delegate_text_messages.height + 5
+            height: delegate_text.height
+            width: list_view_clients_main_rect.width
 
-            LabelsTextForDelegate{
-                id: delegate_text_messages
-                width: 140
-                delegate_text.text: modelData
+            LabelsText{
+                id: delegate_text
+                text: modelData
+                height: contentHeight + 10
+                x: 5
+            }
+            MouseArea {
+                anchors.fill: delegate_item
+                onPressed: { list_view_clients.currentIndex = index }
             }
         }
     }
@@ -32,17 +96,35 @@ Rectangle {
     Flickable {
         Layout.margins: 10
         anchors.fill: list_view_clients_main_rect
-        ListViewTemplate{
+        ListView{
             id: list_view_clients
             model: clients_list_model
             delegate: delegate_list_view_clients
             anchors.fill: parent
+            clip: true
+            focus: true
+
+            ScrollBar.vertical: ScrollBar{}
+            highlight:  Rectangle{
+                radius: 5
+                color: "#FD9583"
+            }
+            highlightMoveDuration: 100
+
+            onHighlightItemChanged: {
+                selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
+                console.log(clients_list_model.get(list_view_clients.currentIndex).client)
+
+            }
+            onCurrentIndexChanged: {
+                selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
+                console.log(selectedClient)
+            }
         }
     }
 
     Component.onCompleted: {
         server_view.clientName.connect(Funcs.addClientToList)
         server_view.removeClientFromList.connect(Funcs.removeClientFromList)
-
     }
 }

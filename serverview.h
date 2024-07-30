@@ -29,7 +29,8 @@ public:
     bool getStateServerStarted() const;
 
     Q_INVOKABLE QString getCurrentDateTime() const;
-    Q_INVOKABLE bool    sendMsgToClient(const QString& message) const;
+//    Q_INVOKABLE bool    sendMsgToClient(const QString& message) const;
+    Q_INVOKABLE bool    sendMsgToClient(const QString& client, const QString& message) const;
     Q_INVOKABLE void    startServer(const QString& port);
     Q_INVOKABLE void    stopServer();
 

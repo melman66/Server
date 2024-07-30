@@ -8,49 +8,19 @@ ServerModel::ServerModel(QObject *parent)
     , messages_db{nullptr}
     , next_block_size{0}
 {}
-
-QString ServerModel::readIpFromFile(const QString &file_path)
+//PRIVATE
+bool ServerModel::sendMsgToClient(const QString& client, const QString &message)
 {
-    QFile file(file_path);
-    QString ip{""};
-
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        emit readFromClient("file with ip is not open!");
-        return ip;
-    }
-
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-        ip = ip + in.readLine();
-    }
-    return ip;
+    if(clients.key(client))
+        return sendMsgToClient(message, clients.key(client));
+    else
+        return false;
 }
 
+//PUBLIC
 bool ServerModel::getStateServer() const
 {
     return server->isListening();
-}
-
-bool ServerModel::sendMsgToClient(const QString &message)
-{
-    QByteArray arrDataBlock;
-    QDataStream out(&arrDataBlock, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_6);
-
-    out << quint16(0)
-        << message;
-
-    out.device()->seek(0);
-    out << quint16(arrDataBlock.size() - sizeof(quint8));
-
-    for(auto &i : clients)
-        clients.key(i)->write(arrDataBlock);
-
-    if (messages_db->dbIsOpen()){
-        messages_db->addMessage("server", server->serverAddress().toString(), message);
-    }
-
-    return true;
 }
 
 bool ServerModel::sendMsgToClient(const QString &message, QTcpSocket *client_socket)
@@ -83,22 +53,9 @@ bool ServerModel::startServer(const QString& s_port)
         return false;
 
     QHostAddress ipAddress;
-    QString      ipString = readIpFromFile("StringLocalIpAddressForServer.txt");
 
-    if(ipString == "") {
-        emit readFromClient("IP file is empty.\n"
-                            "The first unoccupied address will be generated");
-
-        const QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-        for (const QHostAddress &entry : ipAddressesList) {
-            if (entry != QHostAddress::LocalHost && entry.toIPv4Address()) {
-                ipAddress = entry;
-                break;
-            }
-        }
-    }
-    else
-        ipAddress = QHostAddress{ipString};
+    QHostInfo info = QHostInfo::fromName(QHostInfo::localHostName());
+    ipAddress = info.addresses().last();
 
     if (!server->listen(ipAddress, port_num)){
         emit errorServer(server->errorString());
@@ -180,6 +137,7 @@ void ServerModel::slotReadFromClient()
 
     QString msg;
 
+    //read message from socket
     forever{
         if(!next_block_size){
             if(client_socket->bytesAvailable() < sizeof(quint16))
@@ -190,24 +148,26 @@ void ServerModel::slotReadFromClient()
 
         next_block_size = 0;
     }
+
+    //add to clients map
     if(clients[client_socket] == QString{""}){
         if(clients.key(msg)) {
             while(clients.key(msg))
                 msg = msg + "1";
-            sendMsgToClient(QString{"Your name is occuped. Your new name on server: " + msg}
-                            , client_socket);
         }
-
+        sendMsgToClient(msg, client_socket);
         clients[client_socket] = msg;
         emit clientName(msg);
         return;
     }
 
+    //add message to database
     if (messages_db->dbIsOpen()){
         messages_db->addMessage(clients[client_socket]
                                 , client_socket->localAddress().toString(), msg);
     }
 
+    //send message to GUI
     emit readFromClient(QDate::currentDate().toString() + "   "
                         + QTime::currentTime().toString()+"\n"
                         + clients[client_socket] + ":\n"

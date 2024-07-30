@@ -23,7 +23,7 @@ Rectangle {
             id: delegate_item
             width: delegate_text_messages.width + 5
             height: delegate_text_messages.height + 5
-
+            focus: true
 
             LabelsTextForDelegate{                
                 id: delegate_text_messages
@@ -32,15 +32,16 @@ Rectangle {
         }
     }
 
-    Item {
-        Layout.margins: 10
-        anchors.fill: list_view_messages_main_rect
-        ListViewTemplate{
-            id: list_view_messages
-            model: server_list_model_messages
-            delegate: delegate_list_view_messages
-            anchors.fill: parent
-        }
+    ListView{
+        id: list_view_messages
+        model: server_list_model_messages
+        delegate: delegate_list_view_messages
+        width: parent.width
+        height: parent.height - 5
+
+        clip: true
+        ScrollBar.vertical: ScrollBar{ id: scroll_messages }
+        onCountChanged: { scroll_messages.position = contentHeight }
     }
 
     Component.onCompleted: {

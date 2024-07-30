@@ -17,7 +17,7 @@ public:
     explicit ServerViewModel(QObject *parent = nullptr);
 
     bool getStateServerStarted() const;
-    bool sendMsgToClient(const QString& message) const;
+    bool sendMsgToClient(const QString& client, const QString& message) const;
     bool startServer(const QString& port) const;
     bool stopServer() const;
 

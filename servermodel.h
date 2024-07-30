@@ -31,14 +31,14 @@ private:
 
     bool stateServer{ false };
 
+private:
+    bool sendMsgToClient(const QString &message, QTcpSocket* client_socket);
+
 public:
     explicit ServerModel(QObject *parent = nullptr);
 
-    QString readIpFromFile(const QString& file_path);
-
     bool getStateServer() const;
-    bool sendMsgToClient(const QString& message);
-    bool sendMsgToClient(const QString &message, QTcpSocket* client_socket);
+    bool sendMsgToClient(const QString& client, const QString& message);
     bool startServer(const QString& port);
     bool stopServer();
 

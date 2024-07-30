@@ -21,7 +21,7 @@ Item{
         //Clients list
         ListViewClients{
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: 150
+            Layout.preferredWidth: 160
             Layout.fillHeight: true
         }
 

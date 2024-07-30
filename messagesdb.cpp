@@ -5,6 +5,7 @@ MessagesDB::MessagesDB(QObject *parent, const QString &host, const QString &user
     : QObject{parent}, stateDB{false}
 {
     stateDB = openDatabase("messages_db.accdb", host, username);
+    qDebug() << messages_db.lastError();
 }
 
 MessagesDB::~MessagesDB()
@@ -42,6 +43,7 @@ bool MessagesDB::openDatabase(const QString &name_file_db, const QString &host, 
 {
     QString dsn_string = QString("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=%1")
                              .arg(QDir::currentPath() + "/" + name_file_db);
+    qDebug() << QDir::currentPath() + "/" + name_file_db;
 
     messages_db = QSqlDatabase::addDatabase("QODBC");
 

@@ -13,6 +13,8 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include "config.h"
+
 class MessagesDB : public QObject
 {
     Q_OBJECT

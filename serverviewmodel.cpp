@@ -27,9 +27,9 @@ bool ServerViewModel::getStateServerStarted() const
     return server_model->getStateServer();
 }
 
-bool ServerViewModel::sendMsgToClient(const QString &message) const
+bool ServerViewModel::sendMsgToClient(const QString& client, const QString &message) const
 {
-    return server_model->sendMsgToClient(message);
+    return server_model->sendMsgToClient(client, message);
 }
 
 bool ServerViewModel::startServer(const QString &port) const
