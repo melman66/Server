@@ -46,7 +46,7 @@ Rectangle {
 
     Component.onCompleted: {
         server_view.messageSended.connect(Funcs.addMessageToList)
-        server_view.readFromClient.connect(Funcs.addMessageToList)
+        server_view.sendMsgToGUI.connect(Funcs.addMessageToList)
         server_view.clientName.connect(Funcs.addMsgNewClient)
         server_view.removeClientFromList.connect(Funcs.removeMsgClient)
         server_view.errorServer.connect(Funcs.addMessageToList)

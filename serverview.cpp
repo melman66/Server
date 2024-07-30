@@ -13,9 +13,9 @@ ServerView::ServerView(QObject *parent)
     connect(server_view_model, &ServerViewModel::errorServer
             , this, &ServerView::errorServer);
 
-    //readFromClient
-    connect(server_view_model, &ServerViewModel::readFromClient
-            , this, &ServerView::readFromClient);
+    //sendMsgToGUI
+    connect(server_view_model, &ServerViewModel::sendMsgToGUI
+            , this, &ServerView::sendMsgToGUI);
 
     //removeClientFromList
     connect(server_view_model, &ServerViewModel::removeClientFromList

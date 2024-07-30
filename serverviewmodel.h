@@ -24,7 +24,7 @@ public:
 signals:
     void clientName(QString);
     void errorServer(QString);
-    void readFromClient(QString);
+    void sendMsgToGUI(QString);
     void removeClientFromList(QString);
 };
 

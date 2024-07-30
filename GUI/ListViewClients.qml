@@ -112,13 +112,14 @@ Rectangle {
             highlightMoveDuration: 100
 
             onHighlightItemChanged: {
-                selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
-                console.log(clients_list_model.get(list_view_clients.currentIndex).client)
-
+                if (list_view_clients.count > 0) {
+                    selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
+                }
             }
             onCurrentIndexChanged: {
-                selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
-                console.log(selectedClient)
+                if (list_view_clients.count > 0) {
+                    selectedClient = clients_list_model.get(list_view_clients.currentIndex).client
+                }
             }
         }
     }

@@ -26,7 +26,9 @@ function removeClientFromList(name)
 
 function removeMsgClient(name)
 {
-    server_list_model_messages.append({"message" : "Client disconnected: " + name})
+    if (serverIsStarted) {
+        server_list_model_messages.append({"message" : "Client disconnected: " + name})
+    }
 }
 
 function sendMsgToClient(message)

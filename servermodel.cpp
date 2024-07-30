@@ -62,7 +62,7 @@ bool ServerModel::startServer(const QString& s_port)
         return false;
     }
     else
-        emit readFromClient("Server is started. IP: " + ipAddress.toString()
+        emit sendMsgToGUI("Server is started. IP: " + ipAddress.toString()
                             + " port: " + s_port);
 
     //newConnection
@@ -79,9 +79,9 @@ bool ServerModel::startServer(const QString& s_port)
     messages_db = new MessagesDB{this, server->serverAddress().toString(), "server"};
 
     if (messages_db->dbIsOpen())
-        emit readFromClient("Database is open.");
+        emit sendMsgToGUI("Database is open.");
     else
-        emit readFromClient("Database is not open.");
+        emit sendMsgToGUI("Database is not open.");
 
     stateServer = server->isListening();
 
@@ -101,7 +101,7 @@ bool ServerModel::stopServer()
     messages_db->closeDatabase();
     messages_db->deleteLater();
 
-    emit readFromClient("Server is stoped");
+    emit sendMsgToGUI("Server is stoped");
 
     return stateServer;
 }
@@ -168,7 +168,7 @@ void ServerModel::slotReadFromClient()
     }
 
     //send message to GUI
-    emit readFromClient(QDate::currentDate().toString() + "   "
+    emit sendMsgToGUI(QDate::currentDate().toString() + "   "
                         + QTime::currentTime().toString()+"\n"
                         + clients[client_socket] + ":\n"
                         +msg);
