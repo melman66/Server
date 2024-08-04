@@ -51,11 +51,10 @@ qt_add_qml_module(${PROJECT_NAME}
 	GUI/LabelsText.qml
 	GUI/LabelsTextForDelegate.qml
 	GUI/LightConnected.qml
-	GUI/TopItem.qml
-	GUI/ListViewMessages.qml
 	GUI/ListViewClients.qml
+	GUI/ListViewMessages.qml
 	GUI/ServerWindow.qml
-#	GUI/ListViewTemplate.qml
+	GUI/TopItem.qml
 
 	GUI/ServerFuncs.js
 

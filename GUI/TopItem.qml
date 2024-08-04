@@ -1,6 +1,8 @@
 ﻿import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
+import Server
+import "ServerFuncs.js" as Funcs
 
 Item {
     RowLayout {
@@ -20,8 +22,9 @@ Item {
         }
 
         //filler item
-        Item{
+        Item {
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
 
         //light connected

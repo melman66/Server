@@ -12,64 +12,6 @@ Rectangle {
 
     ListModel{
         id: clients_list_model
-
-//        ListElement{
-//            client: "aaa"
-//        }
-//        ListElement{
-//            client: "bbb"
-//        }
-//        ListElement{
-//            client: "CCCCCCCCC"
-//        }
-//        ListElement{
-//            client: "ddddd"
-//        }
-//        ListElement{
-//            client: "eee"
-//        }
-
-//        ListElement{
-//            client: "CCCCCCCCC"
-//        }
-//        ListElement{
-//            client: "ddddd"
-//        }
-//        ListElement{
-//            client: "eee"
-//        }
-
-//        ListElement{
-//            client: "CCCCCCCCC"
-//        }
-//        ListElement{
-//            client: "ddddd"
-//        }
-//        ListElement{
-//            client: "eee"
-//        }
-
-//        ListElement{
-//            client: "CCCCCCCCC"
-//        }
-//        ListElement{
-//            client: "ddddd"
-//        }
-//        ListElement{
-//            client: "eee"
-//        }
-
-//        ListElement{
-//            client: "CCCCCCCCC"
-//        }
-//        ListElement{
-//            client: "ddddd"
-//        }
-//        ListElement{
-//            client: "eee"
-//        }
-
-
     }
 
     Component {

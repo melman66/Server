@@ -13,6 +13,7 @@
 #include <QHostInfo>
 #include <QNetworkInterface>
 #include <QDir>
+#include <QThread>
 
 #include "messagesdb.h"
 
@@ -39,7 +40,7 @@ public:
 
     bool getStateServer() const;
     bool sendMsgToClient(const QString& client, const QString& message);
-    bool startServer(const QString& port);
+    bool startServer(const QString& s_port);
     bool stopServer();
 
 private slots:

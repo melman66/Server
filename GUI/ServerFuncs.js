@@ -1,4 +1,5 @@
 ﻿
+
 function addClientToList(name)
 {
     clients_list_model.append({"client" : name})
@@ -21,7 +22,12 @@ function changeServerState(state)
 
 function removeClientFromList(name)
 {
-    clients_list_model.remove(name)
+    for (var i = 0; i < clients_list_model.count; i++) {
+        if(clients_list_model.get(i).client === name) {
+            break;
+        }
+    }
+    clients_list_model.remove(i)
 }
 
 function removeMsgClient(name)
@@ -65,3 +71,7 @@ function startServer()
     return serverIsStarted
 }
 
+function stopAnimation()
+{
+    loading_animation_rect.visible = false;
+}

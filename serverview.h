@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QtQml>
+#include <QThread>
 
 #include "servermodel.h"
 #include "serverviewmodel.h"
@@ -20,6 +21,7 @@ class ServerView : public QObject
 
 private:
     ServerViewModel *server_view_model;
+    QThread         *backendThread;
 
     bool stateServerStarted{ false };
 

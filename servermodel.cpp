@@ -8,6 +8,7 @@ ServerModel::ServerModel(QObject *parent)
     , messages_db{nullptr}
     , next_block_size{0}
 {}
+
 //PRIVATE
 bool ServerModel::sendMsgToClient(const QString& client, const QString &message)
 {
@@ -151,10 +152,22 @@ void ServerModel::slotReadFromClient()
 
     //add to clients map
     if(clients[client_socket] == QString{""}){
-        if(clients.key(msg)) {
-            while(clients.key(msg))
-                msg = msg + "1";
+        int cntr = 1;
+        QString temp_name = msg;
+
+        forever {
+            if (clients.key(temp_name))
+                temp_name = msg + QString::number(cntr);
+            else {
+                msg = temp_name;
+                break;
+            }
+            cntr++;
         }
+//        if(clients.key(msg)) {
+//            while(clients.key(msg))
+//                msg = msg + "1";
+//        }
         sendMsgToClient(msg, client_socket);
         clients[client_socket] = msg;
         emit clientName(msg);
