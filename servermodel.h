@@ -23,7 +23,7 @@ class ServerModel : public QObject
 
 private:
     QTcpServer *server;
-    MessagesDB *messages_db;
+    MessagesDB *messages_db{nullptr};
 
     quint16     next_block_size;
     quint16     port_num;

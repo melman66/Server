@@ -5,7 +5,6 @@ ServerModel::ServerModel(QObject *parent)
     : port_num{0}
     , QObject{parent}
     , server{new QTcpServer{this}}
-    , messages_db{nullptr}
     , next_block_size{0}
 {}
 
@@ -164,10 +163,6 @@ void ServerModel::slotReadFromClient()
             }
             cntr++;
         }
-//        if(clients.key(msg)) {
-//            while(clients.key(msg))
-//                msg = msg + "1";
-//        }
         sendMsgToClient(msg, client_socket);
         clients[client_socket] = msg;
         emit clientName(msg);
