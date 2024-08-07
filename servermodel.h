@@ -22,8 +22,9 @@ class ServerModel : public QObject
     Q_OBJECT
 
 private:
-    QTcpServer *server;
+    QTcpServer *server{nullptr};
     MessagesDB *messages_db{nullptr};
+    QThread    *thread_db{nullptr};
 
     quint16     next_block_size;
     quint16     port_num;
@@ -33,13 +34,14 @@ private:
     bool stateServer{ false };
 
 private:
-    bool sendMsgToClient(const QString &message, QTcpSocket* client_socket);
+    bool createDB();
+    bool sendMsgToClient(const QString &message, QTcpSocket* client_socket, bool saveToDB = {true});
 
 public:
     explicit ServerModel(QObject *parent = nullptr);
 
     bool getStateServer() const;
-    bool sendMsgToClient(const QString& client, const QString& message);
+    bool sendMsgToClient(const QString& client, const QString& message, bool saveToDB = {true});
     bool startServer(const QString& s_port);
     bool stopServer();
 

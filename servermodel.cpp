@@ -9,10 +9,31 @@ ServerModel::ServerModel(QObject *parent)
 {}
 
 //PRIVATE
-bool ServerModel::sendMsgToClient(const QString& client, const QString &message)
+bool ServerModel::createDB()
 {
-    if(clients.key(client))
-        return sendMsgToClient(message, clients.key(client));
+    thread_db   = new QThread();
+    messages_db = new MessagesDB{server->serverAddress().toString(), "server"};
+
+    messages_db->moveToThread(thread_db);
+
+    connect(this, &ServerModel::destroyed
+            , messages_db, &MessagesDB::deleteLater);
+    connect(messages_db, &MessagesDB::destroyed
+            , thread_db, &QThread::deleteLater);
+
+    if (messages_db->dbIsOpen())
+        return true;
+    else
+        return false;
+}
+
+bool ServerModel::sendMsgToClient(const QString& client
+                                  , const QString &message, bool saveToDB)
+{
+    QTcpSocket *temp_socket = clients.key(client);
+
+    if(temp_socket)
+        return sendMsgToClient(message, temp_socket, saveToDB);
     else
         return false;
 }
@@ -23,7 +44,7 @@ bool ServerModel::getStateServer() const
     return server->isListening();
 }
 
-bool ServerModel::sendMsgToClient(const QString &message, QTcpSocket *client_socket)
+bool ServerModel::sendMsgToClient(const QString &message, QTcpSocket *client_socket, bool saveToDB)
 {
     QByteArray arrDataBlock;
     QDataStream out(&arrDataBlock, QIODevice::WriteOnly);
@@ -37,7 +58,7 @@ bool ServerModel::sendMsgToClient(const QString &message, QTcpSocket *client_soc
 
     client_socket->write(arrDataBlock);
 
-    if (messages_db->dbIsOpen()){
+    if (messages_db->dbIsOpen() && saveToDB){
         messages_db->addMessage("server", server->serverAddress().toString(), message);
     }
 
@@ -76,9 +97,7 @@ bool ServerModel::startServer(const QString& s_port)
                 emit errorServer(server->errorString());
             });
 
-    messages_db = new MessagesDB{this, server->serverAddress().toString(), "server"};
-
-    if (messages_db->dbIsOpen())
+    if (createDB())
         emit sendMsgToGUI("Database is open.");
     else
         emit sendMsgToGUI("Database is not open.");
@@ -98,9 +117,10 @@ bool ServerModel::stopServer()
     }
     clients.clear();
 
-    messages_db->closeDatabase();
-    messages_db->deleteLater();
-
+    if(messages_db) {
+        messages_db->closeDatabase();
+        messages_db->deleteLater();
+    }
     emit sendMsgToGUI("Server is stoped");
 
     return stateServer;
@@ -163,7 +183,7 @@ void ServerModel::slotReadFromClient()
             }
             cntr++;
         }
-        sendMsgToClient(msg, client_socket);
+        sendMsgToClient(msg, client_socket, false);
         clients[client_socket] = msg;
         emit clientName(msg);
         return;

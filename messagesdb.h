@@ -27,11 +27,14 @@ private:
 
 public:
     explicit MessagesDB(QObject *parent, const QString &host, const QString &username);
+    explicit MessagesDB(const QString &host, const QString &username);
     virtual ~MessagesDB();
 
     void addMessage(const QString& sender_name, const QString& sender_address, const QString& msg);
     void closeDatabase();
     bool dbIsOpen() const;
+    //bool openDatabase(const QString &path_db, const QString &host, const QString &username);
+
 };
 
 #endif // MESSAGESDB_H
