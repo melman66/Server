@@ -22,12 +22,14 @@ function changeServerState(state)
 
 function removeClientFromList(name)
 {
-    for (var i = 0; i < clients_list_model.count; i++) {
+    var i;
+
+    for (i = 0; i < clients_list_model.count; i++) {
         if(clients_list_model.get(i).client === name) {
             break;
         }
     }
-    clients_list_model.remove(i)
+    clients_list_model.remove(i);
 }
 
 function removeMsgClient(name)

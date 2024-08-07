@@ -116,12 +116,12 @@ bool ServerModel::stopServer()
     for(auto &i: clients){
         clients.key(i)->deleteLater();
     }
-    clients.clear();
 
     if(messages_db) {
         messages_db->closeDatabase();
         messages_db->deleteLater();
     }
+
     emit sendMsgToGUI("Server is stoped");
 
     return stateServer;
@@ -130,6 +130,8 @@ bool ServerModel::stopServer()
 //SLOTS
 void ServerModel::slotClientDisconnected()
 {
+    qDebug() << "disc" << clients;
+
     emit removeClientFromList(clients[(QTcpSocket*)sender()]);
 
     clients.remove((QTcpSocket*)sender());
