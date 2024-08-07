@@ -1,12 +1,6 @@
 ﻿
 #include "messagesdb.h"
 
-MessagesDB::MessagesDB(QObject *parent, const QString &host, const QString &username)
-    : QObject{parent}, stateDB{false}
-{
-    stateDB = openDatabase("messages_db.accdb", host, username);
-}
-
 MessagesDB::MessagesDB(const QString &host, const QString &username) : stateDB{false}
 {
     stateDB = openDatabase("messages_db.accdb", host, username);

@@ -56,7 +56,6 @@ signals:
     void sendMsgToGUI(QString);
     void removeClientFromList(QString);
     void stateServerChanged(bool);
-
 };
 
 #endif // SERVERMODEL_H

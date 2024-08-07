@@ -26,7 +26,6 @@ private:
     bool openDatabase(const QString &path_db, const QString &host, const QString &username);
 
 public:
-    explicit MessagesDB(QObject *parent, const QString &host, const QString &username);
     explicit MessagesDB(const QString &host, const QString &username);
     virtual ~MessagesDB();
 

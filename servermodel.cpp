@@ -16,6 +16,7 @@ bool ServerModel::createDB()
 
     messages_db->moveToThread(thread_db);
 
+    //for delete objects
     connect(this, &ServerModel::destroyed
             , messages_db, &MessagesDB::deleteLater);
     connect(messages_db, &MessagesDB::destroyed
